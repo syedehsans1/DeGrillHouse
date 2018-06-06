@@ -3,6 +3,7 @@
     package="com.easofts.degrill.degrillhouse">
 
     <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
@@ -21,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Pending"></activity>
+        <activity android:name=".PrinterCommand"></activity>
     </application>
 
 </manifest>

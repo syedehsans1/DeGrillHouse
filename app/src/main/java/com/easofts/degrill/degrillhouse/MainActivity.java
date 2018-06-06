@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Firebase.setAndroidContext(this);
-        firebase = new Firebase("https://degrillhouse-48fc6.firebaseio.com");
+        firebase = new Firebase("https://fir-50e8e.firebaseio.com/");
         try {
             ProviderInstaller.installIfNeeded(getApplicationContext());
         } catch (GooglePlayServicesRepairableException e) {

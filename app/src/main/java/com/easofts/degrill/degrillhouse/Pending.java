@@ -55,6 +55,12 @@ public class Pending extends AppCompatActivity{
         final salependingAdapter sadapter=new salependingAdapter(this,pendingsales);
         pl.setAdapter(sadapter);
         pendingtotal.setAdapter(psadapter);
+        pendingtotal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
+                Intent i=new Intent(getApplicationContext(),PrinterCommand.class);
+                startActivity(i);
+            }
+        });
         pl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
                 if(c1.isChecked()) {

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context="com.easofts.degrill.degrillhouse.MainActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/l1"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:focusable="false"
+            android:id="@+id/cheese"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cheese" />
+
+        <CheckBox
+            android:focusable="false"
+            android:id="@+id/onion"
+            android:checked="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Onion" />
+        <CheckBox
+            android:focusable="false"
+            android:id="@+id/tomato"
+            android:checked="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Tomato" />
+        <CheckBox
+            android:focusable="false"
+            android:id="@+id/curly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Curly " />
+    </LinearLayout>
+    <ListView
+        android:id="@+id/menuitems"
+        android:layout_width="300sp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    </ListView>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_weight=".5"
+        android:layout_marginLeft="20sp"
+        android:layout_width="0dip"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/t1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="De Grill House"
+                android:fontFamily="sans-serif-condensed"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display2" />
+            <Button
+                android:id="@+id/pending"
+                android:text="Pending Orders"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="50sp"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Order Id : "
+                android:gravity="center_horizontal"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+            <TextView
+                android:id="@+id/orderid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Order Id : "
+                android:gravity="center_horizontal"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/ordername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Name"
+            android:inputType="textPersonName"
+            />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="70sp"
+                android:layout_height="wrap_content"
+                android:text="Item ID"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+            <TextView
+                android:layout_width="250sp"
+                android:layout_height="wrap_content"
+                android:text="Item Details"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+            <TextView
+                android:layout_width="130sp"
+                android:layout_height="wrap_content"
+                android:text="Price"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+            <CheckBox
+                android:id="@+id/c1"
+                android:layout_width="wrap_content"
+                android:focusable="false"
+                android:layout_height="50sp"
+                android:text="Delete"/>
+        </TableRow>
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+        <ListView
+            android:id="@+id/saletable"
+            android:layout_width="match_parent"
+            android:layout_height="300sp">
+        </ListView>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="70sp"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+            <TextView
+                android:layout_width="250sp"
+                android:layout_height="wrap_content"
+                android:text="Total Bill : "
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+            <TextView
+                android:id="@+id/total"
+                android:layout_width="130sp"
+                android:layout_height="wrap_content"
+                android:text="0.0"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+        </TableRow>
+
+        <CheckBox
+            android:id="@+id/takeaway"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Take Away"
+            android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title" />
+
+        <CheckBox
+            android:id="@+id/delivery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delivery"
+            android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title" />
+
+        <Button
+            android:id="@+id/print"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="300sp"
+            android:background="@android:color/holo_green_dark"
+            android:text="Place Order"
+            android:clickable="true"/>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:text="Designed By: EA Software Solutions +92-349-4637007" />
+</LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</LinearLayout>

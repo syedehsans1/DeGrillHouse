@@ -6,14 +6,17 @@ package com.easofts.degrill.degrillhouse;
 
 
 public class pendingtotal {
+    private int id;
     private String name;
     private int price;
 
-    public pendingtotal(String name,int price) {
+    public pendingtotal(int id,String name, int price) {
         this.name = name;
+        this.id=id;
         this.price=price;
     }
-    public pendingtotal(String name) {
+    public pendingtotal(int id, String name) {
+        this.id=id;
         this.name = name;
         this.price=0;
     }
@@ -25,5 +28,9 @@ public class pendingtotal {
     }
     public void addPrice(int value) {
         price+=value;
+    }
+
+    public int getId() {
+        return id;
     }
 }

@@ -38,17 +38,18 @@ public class Pending extends AppCompatActivity{
         read=new DBHelper(getApplicationContext());
         pendingsales=read.getAllPendingSales();
         Allsales=read.getAllSales();
-        ArrayList <pendingtotal> pendingsalestotal=new ArrayList<pendingtotal>();
-        if(pendingsales.size()>0){
-            pendingsalestotal.add(new pendingtotal(pendingsales.get(0).getOrdername(),Integer.parseInt(pendingsales.get(0).getPrice())));
+        ArrayList<sale> unpaidSales=read.getAllunpaidSales();
+        final ArrayList <pendingtotal> pendingsalestotal=new ArrayList<pendingtotal>();
+        if(unpaidSales.size()>0){
+            pendingsalestotal.add(new pendingtotal(unpaidSales.get(0).getId(),unpaidSales.get(0).getOrdername(),Integer.parseInt(unpaidSales.get(0).getPrice())));
         }
-        for(int j=0,i=1;i<pendingsales.size();i++){
-            if(pendingsales.get(i).getOrdername().equals(pendingsalestotal.get(j).getName())){
-                pendingsalestotal.get(j).addPrice(Integer.parseInt(pendingsales.get(i).getPrice()));
+        for(int j=0,i=1;i<unpaidSales.size();i++){
+            if(unpaidSales.get(i).getId()==pendingsalestotal.get(j).getId()){
+                pendingsalestotal.get(j).addPrice(Integer.parseInt(unpaidSales.get(i).getPrice()));
             }
             else{
                 j++;
-                pendingsalestotal.add(new pendingtotal(pendingsales.get(i).getOrdername(),Integer.parseInt(pendingsales.get(i).getPrice())));
+                pendingsalestotal.add(new pendingtotal(unpaidSales.get(0).getId(),unpaidSales.get(i).getOrdername(),Integer.parseInt(unpaidSales.get(i).getPrice())));
             }
         }
         final pendingtotaladapter psadapter=new pendingtotaladapter(this,pendingsalestotal);
@@ -57,8 +58,11 @@ public class Pending extends AppCompatActivity{
         pendingtotal.setAdapter(psadapter);
         pendingtotal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
+                //read.updatePaidStatus(pendingsalestotal.get(position).getId());
                 Intent i=new Intent(getApplicationContext(),PrinterCommand.class);
+                i.putExtra("OrderID",pendingsalestotal.get(position).getId());
                 startActivity(i);
+                finish();
             }
         });
         pl.setOnItemClickListener(new AdapterView.OnItemClickListener() {

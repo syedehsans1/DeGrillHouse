@@ -10,12 +10,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
 
@@ -29,18 +32,43 @@ public class PrinterCommand extends AppCompatActivity {
     InputStream inputStream;
     Thread workerThread;
     byte[] readBuffer;
+    private DBHelper read;
     int readBufferPosition;
     volatile boolean stopWorker;
     String value = "";
+    ListView order;
+    ArrayList<sale> saleitems = new ArrayList<sale>();
+    saleAdapter sadapter;
+    String txtvalue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.printsale);
+        Intent i=getIntent();
+        final int id=i.getIntExtra("OrderID",0);
+        order=(ListView) findViewById(R.id.saleList);
+        read=new DBHelper(getApplicationContext());
+        saleitems=read.getsales(id);
+        int total=0;
+        txtvalue="           DE GRILL HOUSE\n" +
+                        "FB:: https//www.facebook.com/degrillhouse\n\n" +
+                        " Order #"+id+"  \n\n" +
+                        "ItemID  Name              Price\n";
+        for(int x=0;x<saleitems.size();x++){
+            txtvalue+=  x+"  "+saleitems.get(x).getName()+"          "+saleitems.get(x).getPrice()+"\n\n";
+            total=total+Integer.parseInt(saleitems.get(x).getPrice());
+        }
+        txtvalue+=      "           Total Bill:  "+total+"\n\n\n\n System Designed by: EA Software Solutions\n Contact: 0349-4637007\n\n\n";
+        sadapter = new saleAdapter(this, saleitems);
+        order.setAdapter(sadapter);
         mainBtn = (Button)findViewById(R.id.BtnPrint);
         mainBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IntentPrint("\nMaan chudao behncod gand marwa lo ja ke\n Bhai kuch bhe kr leta hy\n\n\n\n");
+                TextView tv=(TextView) findViewById(R.id.tv);
+                tv.setText(txtvalue);
+                IntentPrint(txtvalue);
+                read.updatePaidStatus(id);
             }
         });
     }
@@ -166,25 +194,25 @@ public class PrinterCommand extends AppCompatActivity {
         byte[] PrintHeader = { (byte) 0xAA, 0x55,2,0 };
         PrintHeader[3]=(byte) buffer.length;
         InitPrinter();
-        if(PrintHeader.length>128)
+        /*if(PrintHeader.length>128)
         {
             value+="\nValue is more than 128 size\n";
             Toast.makeText(this, value, Toast.LENGTH_LONG).show();
         }
         else
-        {
+        {*/
             try
             {
 
                 outputStream.write(txtvalue.getBytes());
                 outputStream.close();
-                socket.close();
+                //socket.close();
             }
             catch(Exception ex)
             {
                 value+=ex.toString()+ "\n" +"Excep IntentPrint \n";
                 Toast.makeText(this, value, Toast.LENGTH_LONG).show();
             }
-        }
+        //}
     }
 }

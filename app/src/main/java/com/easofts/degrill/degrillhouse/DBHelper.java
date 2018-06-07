@@ -34,14 +34,17 @@ public class DBHelper extends SQLiteOpenHelper {
         // TODO Auto-generated method stub
         db.execSQL(
                 "create table sales " +
-                        "(id integer primary key, orderid integer,orderdetails text,price text,timeofsale text,type integer,status integer,itemKey text,ordername text)"
+                        "(id integer primary key, orderid integer,orderdetails text,price text,timeofsale text," +
+                        "type integer,status integer,itemKey text,ordername text,Pstatus integer)"
         );
     }
+
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
         db.execSQL("DROP TABLE IF EXISTS sales");
         onCreate(db);
     }
+
     public boolean insertsale (final ArrayList<sale> sales) {
         SQLiteDatabase db = this.getWritableDatabase();
         Calendar c = Calendar.getInstance();
@@ -58,6 +61,7 @@ public class DBHelper extends SQLiteOpenHelper {
             contentValues.put("timeofsale", formattedDate);
             contentValues.put("status", 0);
             contentValues.put("type", sales.get(i).getType());
+            contentValues.put("Pstatus", 0);
             db.insert("sales", null, contentValues);
 /*            URL url = null;
             try {
@@ -102,6 +106,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return true;
     }
+
     public Cursor getData(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery( "select * from sales where orderid="+id+"", null );
@@ -117,9 +122,15 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return res.getInt(res.getColumnIndex("m"));
     }
+
     public void updateStatus(sale s) {
         SQLiteDatabase db = this.getReadableDatabase();
         db.execSQL( "update sales set status=1 where orderid='"+s.getId()+"' and orderdetails='"+s.getName()+"' and price ='"+s.getPrice()+"'");
+    }
+
+    public void updatePaidStatus(int oid) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.execSQL( "update sales set Pstatus=1 where orderid="+oid+"");
     }
 
     public int numberOfRows(){
@@ -127,6 +138,49 @@ public class DBHelper extends SQLiteOpenHelper {
         int numRows = (int) DatabaseUtils.queryNumEntries(db, "sales");
         return numRows;
     }
+
+    public ArrayList<sale> getAllunpaidSales() {
+        ArrayList<sale> sales = new ArrayList<sale>();
+
+        //hp = new HashMap();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from sales where Pstatus=0", null );
+        res.moveToFirst();
+        int x=0;
+        while(res.isAfterLast() == false){
+            int id=res.getInt(res.getColumnIndex("orderid"));
+            String details=res.getString(res.getColumnIndex("orderdetails"));
+            String price=res.getString(res.getColumnIndex("price"));
+            int type=res.getInt(res.getColumnIndex("type"));
+            int key=res.getInt(res.getColumnIndex("itemKey"));
+            String ordername=res.getString(res.getColumnIndex("ordername"));
+            sales.add(new sale(id,details,price,type,key,ordername,0));
+            res.moveToNext();
+        }
+        return sales;
+    }
+
+    public ArrayList<sale> getsales(int oid) {
+        ArrayList<sale> sales = new ArrayList<sale>();
+
+        //hp = new HashMap();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from sales where orderid="+oid, null );
+        res.moveToFirst();
+        int x=0;
+        while(res.isAfterLast() == false){
+            int id=res.getInt(res.getColumnIndex("orderid"));
+            String details=res.getString(res.getColumnIndex("orderdetails"));
+            String price=res.getString(res.getColumnIndex("price"));
+            int type=res.getInt(res.getColumnIndex("type"));
+            int key=res.getInt(res.getColumnIndex("itemKey"));
+            String ordername=res.getString(res.getColumnIndex("ordername"));
+            sales.add(new sale(id,details,price,type,key,ordername,0));
+            res.moveToNext();
+        }
+        return sales;
+    }
+
     public ArrayList<sale> getAllPendingSales() {
         ArrayList<sale> sales = new ArrayList<sale>();
 
@@ -147,9 +201,9 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return sales;
     }
+
     public ArrayList<sale> getAllSales() {
         ArrayList<sale> sales = new ArrayList<sale>();
-
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery( "select * from sales where 1", null );
